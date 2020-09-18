@@ -41,11 +41,11 @@ class CliController
 
     input = nil
     input = gets.strip
-    while input != "Exit"
-      case input
-      when "43554"
-        puts @api_test.search_api_for_sat(43554)
-      end
+    if input != "exit"
+      puts "searching for #{input}"
+      @api_test.get_sat_data(input)
+    elsif input == "exit"
+      exit
     end
   end
 

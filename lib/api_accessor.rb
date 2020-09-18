@@ -61,8 +61,8 @@ end
   end
 
 
-  def get_sat_data    #method used for gathering the data returned from the search_api_for_sat method and seperating it out into a readable format for end user.
-    all_data = self.search_api_for_sat    #creates a variable and sets it equal to the return of the search_api_for_sat method, which is a hash of all the sat data.
+  def get_sat_data(input = 0)    #method used for gathering the data returned from the search_api_for_sat method and seperating it out into a readable format for end user.
+    all_data = self.search_api_for_sat(input)    #creates a variable and sets it equal to the return of the search_api_for_sat method, which is a hash of all the sat data.
 
     sat_id = all_data["satelliteId"]                    #the following lines of code extract specific data and assign that data to varibles
     sat_name = all_data["name"]
