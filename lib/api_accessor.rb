@@ -8,26 +8,28 @@ class API_ACCESSOR
   base_uri "data.ivanstanojevic.me"   #sets the base homepage url for the httparty gem
 
 
-def response
-  response = self.class.get('/api/tle/')    #the initial get query to the api endpoint.
+
+def response (url = "/api/tle/")
+  response = self.class.get(url)    #the initial get query to the api endpoint.
   @list_body = JSON.parse(response.body)      #parses the response and sets it equal to an instance variable.
 end
 
 
   @@full_list = []      #creates a variable set to an empty array to be populated with satellite names by the while loop below.
 
-  def get_sat_name_and_id (url)    #a method that iterates through each page of the API and returns an array of extracted satellite ID's and names.
+  def get_sat_name_and_id (url = 0)    #a method that provides a numbered list of satellites for the user to choose from.
     current_page = @list_body["view"]["@id"].split("?")[1].tr("=", "")   #creates a variable and assigns it to the value of the current page and formats it to a more pleasing form.
     @list_body["member"].each do |temp|      #iterates over the 20 (max) satellites in the current page stored in the "member" key.
       @@full_list << temp['name']         #shovels the names of each satellite into the full_list array.
     end
     puts "Currently displaying results from #{current_page}"  #indicates to the user which page of the API they are currently viewing.
-    @@full_list.each_with_index do |value, index|  #returns the collective names of all satellites shoveled into the array during the loop
-      puts "#{index+1}. #{value}"
+    indexed_satellites = @@full_list.each_with_index do |value, index|  #creates a variable to hold the indexed list of satellite names and iterates through the full_list array.
+      puts "#{index+1}. #{value}"           #puts out the satellite names with modified index in list format.
     end
+    indexed_satellites      #returns the final created numbered list.
   end
 
-  def go_to_next_page     #a mpthod that clears the current list of satellites and then displays the satellites on page 2 of the API.
+  def go_to_next_page     #a mpthod that clears the current list of satellites and then displays the satellites on the next page of the API.
     @@full_list.clear     #clears the current array of satellite names in the array.
     next_page = @list_body["view"]["next"].split("?")[1]      #creates a variable to store the nested value of "next" within the variable assigned to the query response and formats it.
 
@@ -35,10 +37,18 @@ end
       next_page_address = @list_body["view"]["next"]  #sets a variable equal to the html address of the next page of the API.
       list = self.class.get(next_page_address)     #increments the url by resetting it to the "next" value we stored above.
       @list_body = JSON.parse(list.body)    #parses the new response.
-      puts "moving to #{next_page}"    #lists to the user which page the loop is going to next.
+      puts "moving to #{next_page}"    #tells the user which page the loop is going to next.
     end
-    get_sat_name_and_id (next_page_address)   #calls the shown method and passes in the updated html address in order to show the new group of satellite names.
+    get_sat_name_and_id (next_page_address)   #calls the get_sat_name_and_id method and passes in the updated html address in order to show the new group of satellite names.
   end
+
+  def go_to_page (input)  #a method that allows a user to go to a specific page within the API.
+    @@full_list.clear     #clears the current array of satellite names in the array.
+    user_page_input = "https://data.ivanstanojevic.me/api/tle?page=#{input}"  #sets a variable to an html address with the page number set by user.
+    response (user_page_input)    #updates the json parse query.
+    get_sat_name_and_id       #populates the new list from the users entered page.
+  end
+
 
 
   def search_api_for_sat
@@ -80,7 +90,9 @@ end
 
 end
 
+#development/test code below this line ----------------------
 
 first_test = API_ACCESSOR.new
 first_test.response
-1.times {puts first_test.go_to_next_page}
+first_test.go_to_page(6)
+first_test.go_to_next_page
