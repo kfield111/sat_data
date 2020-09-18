@@ -29,7 +29,7 @@ end
     indexed_satellites      #returns the final created numbered list.
   end
 
-  def go_to_next_page     #a mpthod that clears the current list of satellites and then displays the satellites on the next page of the API.
+  def go_to_next_page     #a method that clears the current list of satellites and then displays the satellites on the next page of the API.
     @@full_list.clear     #clears the current array of satellite names in the array.
     next_page = @list_body["view"]["next"].split("?")[1]      #creates a variable to store the nested value of "next" within the variable assigned to the query response and formats it.
 
@@ -67,7 +67,7 @@ end
     sat_id = all_data["satelliteId"]                    #the following lines of code extract specific data and assign that data to varibles
     sat_name = all_data["name"]
     ballistic_coef = all_data["line1"].split[4]
-    inclination = all_data["line2"].split[1]
+    inclination = all_data["line2"].split[2]
     designator = all_data["line1"].split[2]             #the following lines of code convert the data format from the api into a readable format to display which number this satellite launch was.
     number_launched = "#{designator[2]}#{designator[3]}#{designator[4]}"
     launch_date = all_data["line1"].split[2]              #the following lines of code convert the data format from the api into a readable year format.
