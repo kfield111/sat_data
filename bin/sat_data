@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require './lib/environment'
+
+SatData::Cli_Controller.new.call

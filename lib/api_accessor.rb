@@ -1,12 +1,12 @@
-require 'rubygems'
-require 'httparty'
-require 'json'
-
+require './lib/environment'
 
 class API_ACCESSOR
   include HTTParty      #necessary to allow HTTParty to operate correctly in this class
   base_uri "data.ivanstanojevic.me"   #sets the base homepage url for the httparty gem
 
+  def initialize
+    response
+  end
 
 
 def response (url = "/api/tle/")
@@ -51,9 +51,9 @@ end
 
 
 
-  def search_api_for_sat
+  def search_api_for_sat (input = 0)     #method that locates data within the API on the satellite chosen by the user.
     api_url = "/api/tle/"      #sets a variable equal to the Endpoint.
-    search_input = "25544"     #sets a variable equal to a users input.
+    search_input = "#{input}"     #sets a variable equal to a users input.
     final_url = "#{api_url}#{search_input}"  #sets a new, final variable equal to a string concat of both Enpoint and user input to pass into the query below.
 
     response = self.class.get(final_url)    #creates a variable and sets it equal to the response from a query which is dynamically passed by the variable created above.
@@ -85,14 +85,11 @@ end
     puts "Ballistic Coefficient: #{ballistic_coef}"
     puts "Inclination: #{inclination}"
 
-    # puts "Launch Date: #{all_data["date"]}"
   end
 
 end
 
 #development/test code below this line ----------------------
-
-first_test = API_ACCESSOR.new
-first_test.response
-first_test.go_to_page(6)
-first_test.go_to_next_page
+#
+# first_test = API_ACCESSOR.new
+# puts first_test.get_sat_name_and_id
