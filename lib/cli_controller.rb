@@ -88,9 +88,9 @@ class CliController
         clear_and_reset
         page_select
       elsif string_input == "next page"
-        @api_test.go_to_next_page
         clear_and_reset
-        list_menu
+        @api_test.go_to_next_page
+
       else
         puts "**** I'm sorry, I don't understand that command.  Please try again. ****"
         sleep (2)
