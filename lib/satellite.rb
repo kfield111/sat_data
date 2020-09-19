@@ -42,12 +42,13 @@ class Satellite
 
   def get_sat_info
     puts <<~DOC
-
+    ---------------------#{name}-----------------------
     Satelite Name: #{name}
     Satellite ID: #{id}
     Satellite Launch Year: #{launch_year}
     Satellite Ballistic Coefficient:  #{ballistic_coef}
     Satellite Inclination: #{inclination}
+    -----------------------------------------------------
     DOC
 
   end

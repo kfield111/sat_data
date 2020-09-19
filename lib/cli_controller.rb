@@ -13,25 +13,32 @@ class CliController
   end
 
   def greeting
-    puts "Hello! Welcome to the Satellite Data Retrieval Program!"
-    sleep (2)
+    puts <<~DOC
+     Hello! Welcome to the Satellite Data Retrieval Program!
+
+     Search a list of satellites by name, choose one, and receive
+     a bunch of cool data back!
+
+     DOC
+    sleep (3)
   end
 
   def command_promt
     puts <<~DOC
 ---- Below is a list of commands.  Type one in to get started! ----
 
-    1) "populate list" < Populates a list of 20 satellites by name.
+    1) populate list < Populates a list of 20 satellites by name.
 
-    2) "go to page"  < Allows a search of the API by page number
+    2) go to page  < Allows a search of the API by page number
 
-    3) "exit" < Exits the program.
+    3) exit < Exits the program.
     DOC
 
     input = gets.strip
     if input == "populate list"
         list_menu
     elsif input == "exit"
+      goodbye
       exit
     elsif input == "go to page"
       page_select
@@ -59,20 +66,45 @@ class CliController
 
     @api_test.get_sats
     current_page = @api_test.list_current_page
-    puts "You are viewing 20 satellies on #{current_page} of the TLE API ."
+    puts "You are viewing 20 satellites on #{current_page} of the TLE API ."
     Satellite.all.each_with_index {|sat, index| puts "#{index + 1}. #{sat.name}"}
 
-    input = gets.strip
+    set_input
 
-    if input.to_i > 0
-      int_input = input.to_i
+    if @input.to_i > 0
+      int_input = @input.to_i
     else
-      string_input = input
+      string_input = @input
     end
 
-    while input = int_input
+    if @input = int_input
       if int_input <= Satellite.all.length
-        Satellite.all[int_input - 1].get_sat_info
+        system "clear"
+        1.times {Satellite.all[int_input - 1].get_sat_info}
+        puts <<~DOC
+
+        Please type "return" to return to the previous list or "go to page" to
+        select a a different list.  To close type "exit".
+        DOC
+
+        set_input
+
+        if @input == "return"
+          clear_and_reset
+          list_menu
+        elsif @input == "go to page"
+          clear_and_reset
+          page_select
+        elsif @input == "exit"
+          goodbye
+          exit
+        else
+          puts "**** I'm sorry, I don't understand that command.  Returning to list. ****"
+          sleep (2)
+          clear_and_reset
+          list_menu
+        end
+
       elsif int_input >= Satellite.all.length
         puts "**** Please choose a number between 1 and #{Satellite.all.length}. ****"
         sleep (2)
@@ -81,8 +113,10 @@ class CliController
       end
     end
 
-    while input = string_input
+
+    while @input = string_input
       if string_input == "exit"
+        goodbye
         exit
       elsif string_input == "go to page"
         clear_and_reset
@@ -108,6 +142,7 @@ class CliController
     Page 1 through 435
 
     DOC
+
     input = gets.chomp.to_i
 
     if input >= 1 && input <= 435
@@ -119,6 +154,14 @@ class CliController
       system "clear"
       page_select
     end
+  end
+
+  def goodbye
+    puts "Goodbye!"
+  end
+
+  def set_input
+    @input = gets.strip
   end
 
 
