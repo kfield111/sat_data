@@ -45,23 +45,14 @@ class CliController
               exit
     DOC
 
-  @list_number = @api_test.get_sat_names
+    @api_test.get_sats
+    Satellite.all.each_with_index {|sat, index| puts "#{index + 1}. #{sat.name}"}
 
     input = gets.strip
 
 
-    if input.to_i <= @list_number.length
-      sat_name = @list_number[input.to_i - 1]
-
-      @api_test.get_sat_data(
-      # test_five = @api_test.response["member"]["satelliteId"]
-      # puts test_five
-      elsif input == "next page"
-      puts "going to next page"    #Test must replace later
-    elsif input == "exit"
+    if input == "exit"
       exit
-    else
-      self.list_menu
     end
   end
 

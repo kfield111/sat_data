@@ -20,10 +20,9 @@ class API_ACCESSOR
   def get_sats (url = 0)    #a method that provides a numbered list of satellites for the user to choose from.
     current_page = @list_body["view"]["@id"].split("?")[1].tr("=", "").gsub("search", "").tr("&", "")   #creates a variable and assigns it to the value of the current page and formats it to a more pleasing form.
     @list_body["member"].each do |temp|
-      temp = Satellite.new
-      Satellite.name = "test"
+      Satellite.create_from_api(temp)
     end
-    Satellite.all
+
   end
 
 
@@ -60,35 +59,9 @@ class API_ACCESSOR
   end
 
 
-  def get_sat_data(input = 0)    #method used for gathering the data returned from the search_api_for_sat method and seperating it out into a readable format for end user.
-    all_data = self.search_api_for_sat(input)    #creates a variable and sets it equal to the return of the search_api_for_sat method, which is a hash of all the sat data.
-
-    satellite.name = all_data["satelliteId"]                    #the following lines of code extract specific data and assign that data to varibles
-    sat_name = all_data["name"]
-    ballistic_coef = all_data["line1"].split[4]
-    inclination = all_data["line2"].split[2]
-    designator = all_data["line1"].split[2]             #the following lines of code convert the data format from the api into a readable format to display which number this satellite launch was.
-    number_launched = "#{designator[2]}#{designator[3]}#{designator[4]}"
-    launch_date = all_data["line1"].split[2]              #the following lines of code convert the data format from the api into a readable year format.
-    launch_year = "#{launch_date[0]}#{launch_date[1]}"
-    if launch_date[0] == "9"
-      launch_year_full = "19#{launch_year}"
-    elsif launch_date[1] == "0"
-      launch_year_full = "20#{launch_year}"
-    end
-
-    puts "Satellite ID: #{sat_id}"              #the following lines of code puts out the specified extracted data for the end user
-    puts "Satellite Name: #{sat_name}"
-    puts "Launch Year: #{launch_year_full}"
-    puts "Launch Number: #{number_launched}"
-    puts "Ballistic Coefficient: #{ballistic_coef}"
-    puts "Inclination: #{inclination}"
-
-  end
-
 end
 
 #development/test code below this line ----------------------
 #
-first_test = API_ACCESSOR.new
-puts first_test.get_sats
+# first_test = API_ACCESSOR.new
+# puts first_test.get_sats

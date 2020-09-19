@@ -5,7 +5,7 @@ class Satellite
 
   @@all = []
 
-  def initialize
+  def initialize (name, id, launch_year, ballistic_coef, inclination)
     @name = name
     @id = id
     @launch_year = launch_year
@@ -18,5 +18,22 @@ class Satellite
     @@all
   end
 
+
+  def self.create_from_api (sat)
+    sat_name = sat["name"]
+    sat_id = sat["satelliteId"]
+
+    launch_date = sat["line1"].split[2]              #the following lines of code convert the data format from the api into a readable year format.
+    launch_year = "#{launch_date[0]}#{launch_date[1]}"
+    if launch_date[0] == "9"
+      launch_year_full = "19#{launch_year}"
+    elsif launch_date[1] == "0"
+      launch_year_full = "20#{launch_year}"
+    end
+    sat_ball_co = sat["line1"].split[4]
+    sat_incln = sat["line2"].split[2]
+
+    new_sat = self.new(sat_name, sat_id, launch_year_full, sat_ball_co, sat_incln)
+  end
 
 end
