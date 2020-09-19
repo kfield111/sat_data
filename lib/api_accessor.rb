@@ -17,17 +17,15 @@ class API_ACCESSOR
 
   @@full_list = []      #creates a variable set to an empty array to be populated with satellite names by the while loop below.
 
-  def get_sat_names (url = 0)    #a method that provides a numbered list of satellites for the user to choose from.
+  def get_sats (url = 0)    #a method that provides a numbered list of satellites for the user to choose from.
     current_page = @list_body["view"]["@id"].split("?")[1].tr("=", "").gsub("search", "").tr("&", "")   #creates a variable and assigns it to the value of the current page and formats it to a more pleasing form.
-    @list_body["member"].each do |temp|      #iterates over the 20 (max) satellites in the current page stored in the "member" key.
-      @@full_list << temp['name']         #shovels the names of each satellite into the full_list array.
+    @list_body["member"].each do |temp|
+      temp = Satellite.new
+      Satellite.name = "test"
     end
-    puts "Currently displaying results from #{current_page}"  #indicates to the user which page of the API they are currently viewing.
-    indexed_satellites = @@full_list.each_with_index do |value, index|  #creates a variable to hold the indexed list of satellite names and iterates through the full_list array.
-      puts "#{index+1}. #{value}"           #puts out the satellite names with modified index in list format.
-    end
-    # indexed_satellites      #returns the final created numbered list.
+    Satellite.all
   end
+
 
   def go_to_next_page     #a method that clears the current list of satellites and then displays the satellites on the next page of the API.
     @@full_list.clear     #clears the current array of satellite names in the array.
@@ -42,11 +40,12 @@ class API_ACCESSOR
     get_sat_names (next_page_address)   #calls the get_sat_name_and_id method and passes in the updated html address in order to show the new group of satellite names.
   end
 
+
   def go_to_page (input)  #a method that allows a user to go to a specific page within the API.
     @@full_list.clear     #clears the current array of satellite names in the array.
     user_page_input = "https://data.ivanstanojevic.me/api/tle?page=#{input}"  #sets a variable to an html address with the page number set by user.
     response (user_page_input)    #updates the json parse query.
-    get_sat_names      #populates the new list from the users entered page.
+    get_sats     #populates the new list from the users entered page.
   end
 
 
@@ -64,7 +63,7 @@ class API_ACCESSOR
   def get_sat_data(input = 0)    #method used for gathering the data returned from the search_api_for_sat method and seperating it out into a readable format for end user.
     all_data = self.search_api_for_sat(input)    #creates a variable and sets it equal to the return of the search_api_for_sat method, which is a hash of all the sat data.
 
-    sat_id = all_data["satelliteId"]                    #the following lines of code extract specific data and assign that data to varibles
+    satellite.name = all_data["satelliteId"]                    #the following lines of code extract specific data and assign that data to varibles
     sat_name = all_data["name"]
     ballistic_coef = all_data["line1"].split[4]
     inclination = all_data["line2"].split[2]
@@ -92,4 +91,4 @@ end
 #development/test code below this line ----------------------
 #
 first_test = API_ACCESSOR.new
-first_test.get_sat_names
+puts first_test.get_sats
