@@ -32,8 +32,10 @@ class CliController
     elsif input == "exit"
       exit
     elsif input == "go to page"
+      self.page_select
     else
       puts "**** I'm sorry, I don't understand that command.  Please try again. ****"
+      sleep (2)
       system "clear"
       command_promt
     end
@@ -43,11 +45,11 @@ class CliController
     system "clear"
     puts <<~DOC
     "Please select the number of the satellite you wish to know more about
-    in the list or type another command"
+    from the list or type another command"
 
     -----------Commands-----------
               next page
-              go to page (x)
+              go to page
               exit
     ------------------------------
 
@@ -63,7 +65,34 @@ class CliController
       Satellite.all[modded_input - 1].get_sat_info
     elsif input == "exit"
       exit
+    else
+      puts "**** Please choose a number between 1 and 20. ****"
+      sleep (2)
+      system "clear"
+      list_menu
     end
+    end
+  end
+
+
+  def page_select
+    puts <<~DOC
+
+    please type in the page number you wish to load
+    Page 1 through 435
+
+    DOC
+    input = gets.chomp.to_i
+    @api_test.go_to_page(input)
+    list_menu
+
+    if input != (1..435)
+      puts "**** Please choose a number between 1 and 435. ****"
+      sleep (2)
+      system "clear"
+      page_select
+    end
+
   end
 
 end
