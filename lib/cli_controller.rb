@@ -58,8 +58,8 @@ class CliController
     DOC
 
     @api_test.get_sats
-    # current_page = @api_test.response["view"]["@id"].split("?")[1].tr("=", "").gsub("search", "").tr("&", "")
-    puts "You are viewing 20 satellies on x page of the TLE API ."
+    current_page = @api_test.list_current_page
+    puts "You are viewing 20 satellies on #{current_page} of the TLE API ."
     Satellite.all.each_with_index {|sat, index| puts "#{index + 1}. #{sat.name}"}
 
     input = gets.strip

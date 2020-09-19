@@ -8,6 +8,11 @@ class API_ACCESSOR
     response
   end
 
+  def list_current_page
+    @list_body["view"]["@id"].split("?")[1].tr("=", "").gsub("search", "").tr("&", "")
+  end
+
+
 
   def response (url = "/api/tle?search=")
   response = self.class.get(url)    #the initial get query to the api endpoint.
@@ -16,7 +21,7 @@ class API_ACCESSOR
 
 
   def get_sats (url = 0)    #a method that provides a numbered list of satellites for the user to choose from.
-    current_page = @list_body["view"]["@id"]         #["view"]["@id"].split("?")[1].tr("=", "").gsub("search", "").tr("&", "")
+    current_page = @list_body["view"]["@id"]
     @list_body["member"].each do |temp|
       Satellite.create_from_api(temp)
     end
