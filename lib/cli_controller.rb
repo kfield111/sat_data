@@ -7,32 +7,34 @@ class CliController
   end
 
   def call
+    clear_and_reset
     greeting
     command_promt
   end
 
   def greeting
     puts "Hello! Welcome to the Satellite Data Retrieval Program!"
+    sleep (3)
   end
 
   def command_promt
-    puts "Below is a list of commands.  Type one in to get started!"
     puts <<~DOC
+---- Below is a list of commands.  Type one in to get started! ----
 
     1) "populate list" < Populates a list of 20 satellites by name.
 
-    2) "go to page"  < Populates a list of page numbers
+    2) "go to page"  < Allows a search of the API by page number
 
     3) "exit" < Exits the program.
     DOC
 
     input = gets.strip
     if input == "populate list"
-        self.list_menu
+        list_menu
     elsif input == "exit"
       exit
     elsif input == "go to page"
-      self.page_select
+      page_select
     else
       puts "**** I'm sorry, I don't understand that command.  Please try again. ****"
       sleep (2)
@@ -56,6 +58,8 @@ class CliController
     DOC
 
     @api_test.get_sats
+    current_page = @api_test.response["view"]["@id"].split("?")[1].tr("=", "").gsub("search", "").tr("&", "")
+    puts "You are viewing 20 satellies on #{current_page} of the TLE API ."
     Satellite.all.each_with_index {|sat, index| puts "#{index + 1}. #{sat.name}"}
 
     input = gets.strip
@@ -83,6 +87,10 @@ class CliController
       elsif string_input == "go to page"
         clear_and_reset
         page_select
+      elsif string_input == "next page"
+        @api_test.go_to_next_page
+        clear_and_reset
+        list_menu
       else
         puts "**** I'm sorry, I don't understand that command.  Please try again. ****"
         sleep (2)

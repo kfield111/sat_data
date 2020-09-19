@@ -24,16 +24,14 @@ class API_ACCESSOR
   end
 
 
-  def go_to_next_page     #a method that clears the current list of satellites and then displays the satellites on the next page of the API.
-    next_page = @list_body["view"]["next"]..split("?")[1].tr("=", "").gsub("search", "").tr("&", "")      #creates a variable to store the nested value of "next" within the variable assigned to the query response and formats it.
+  def go_to_next_page     #a method that calls and loads the next page of the API.
+    next_page = @list_body["view"]["next"].split("?")[1].tr("=", "").gsub("search", "").tr("&", "")      #creates a variable to store the nested value of "next" within the variable assigned to the query response and formats it.
 
     while @list_body["view"]["next"] == "https://data.ivanstanojevic.me/api/tle?#{next_page}"   #creating a loop that runs unit the query reaches a specific page number of the API pulled form the variable above.
       next_page_address = @list_body["view"]["next"]  #sets a variable equal to the html address of the next page of the API.
-      list = self.class.get(next_page_address)     #increments the url by resetting it to the "next" value we stored above.
-      @list_body = JSON.parse(list.body)    #parses the new response.
+      response(next_page_address)     #increments the url by resetting it to the "next" value we stored above.
       puts "moving to #{next_page}"    #tells the user which page the loop is going to next.
     end
-    get_sat_names (next_page_address)   #calls the get_sat_name_and_id method and passes in the updated html address in order to show the new group of satellite names.
   end
 
 
@@ -43,20 +41,10 @@ class API_ACCESSOR
   end
 
 
-
-  # def search_api_for_sat (input = 0)     #method that locates data within the API on the satellite chosen by the user.
-  #   api_url = "/api/tle/"      #sets a variable equal to the Endpoint.
-  #   search_input = "#{input}"     #sets a variable equal to a users input.
-  #   final_url = "#{api_url}#{search_input}"  #sets a new, final variable equal to a string concat of both Enpoint and user input to pass into the query below.
-  #
-  #   response = self.class.get(final_url)    #creates a variable and sets it equal to the response from a query which is dynamically passed by the variable created above.
-  #   body = JSON.parse(response.body)      #creates a variable and sets it equal to the parsed JSON value from the query response.
-  # end
-
-
 end
 
-#development/test code below this line ----------------------
-#
+#--------------development/test code below this line ----------------------
+
+
 # first_test = API_ACCESSOR.new
-# puts first_test.get_sats
+# puts first_test.go_to_next_page
