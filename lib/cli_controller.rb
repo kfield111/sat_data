@@ -173,5 +173,4 @@ class CliController
 end
 
 
-test_two = CliController.new
-test_two.call
+CliController.new.call

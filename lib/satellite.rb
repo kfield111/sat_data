@@ -27,11 +27,12 @@ class Satellite
     sat_name = sat["name"]
     sat_id = sat["satelliteId"]
 
-    launch_date = sat["line1"].split[2]              #the following lines of code convert the data format from the api into a readable year format.
+    launch_date = sat["line1"].split[2]           #the following lines of code convert the data format from the api into a readable year format.
     launch_year = "#{launch_date[0]}#{launch_date[1]}"
-    if launch_date[0] == "9"
+    launch_edit = launch_year.to_i
+    if launch_edit > 20
       launch_year_full = "19#{launch_year}"
-    elsif launch_date[1] == "0"
+    elsif launch_edit < 20
       launch_year_full = "20#{launch_year}"
     end
     sat_ball_co = sat["line1"].split[4]
