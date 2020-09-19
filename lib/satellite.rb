@@ -36,4 +36,16 @@ class Satellite
     new_sat = self.new(sat_name, sat_id, launch_year_full, sat_ball_co, sat_incln)
   end
 
+  def get_sat_info
+    puts <<~DOC
+
+    Satelite Name: #{name}
+    Satellite ID: #{id}
+    Satellite Launch Year: #{launch_year}
+    Satellite Ballistic Coefficient:  #{ballistic_coef}
+    Satellite Inclination: #{inclination}
+    DOC
+
+  end
+
 end

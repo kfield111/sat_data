@@ -39,10 +39,12 @@ class CliController
     system "clear"
     puts <<~DOC
     "Please select the satellite you wish to know more about or type another command"
-    Commands:
+    -----------Commands-----------
               next page
               go to page (x)
               exit
+    ------------------------------
+
     DOC
 
     @api_test.get_sats
@@ -50,8 +52,10 @@ class CliController
 
     input = gets.strip
 
-
-    if input == "exit"
+    if input.to_i <= Satellite.all.length
+      modded_input = input.to_i
+      Satellite.all[modded_input - 1].get_sat_info
+    elsif input == "exit"
       exit
     end
   end
