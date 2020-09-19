@@ -21,7 +21,7 @@ class CliController
 
     1) "populate list" < Populates a list of 20 satellites by name.
 
-    2) "goto page X"  < Populates a list of 20 satellites by name on the given page.
+    2) "go to page"  < Populates a list of page numbers
 
     3) "exit" < Exits the program.
     DOC
@@ -29,8 +29,12 @@ class CliController
     input = gets.strip
     if input == "populate list"
         self.list_menu
+    elsif input == "exit"
+      exit
+    elsif input == "go to page"
     else
-      puts "I'm sorry, I don't understand that command.  Please try again."
+      puts "**** I'm sorry, I don't understand that command.  Please try again. ****"
+      system "clear"
       command_promt
     end
   end
@@ -38,7 +42,9 @@ class CliController
   def list_menu
     system "clear"
     puts <<~DOC
-    "Please select the satellite you wish to know more about or type another command"
+    "Please select the number of the satellite you wish to know more about
+    in the list or type another command"
+
     -----------Commands-----------
               next page
               go to page (x)
