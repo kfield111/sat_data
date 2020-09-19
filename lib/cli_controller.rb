@@ -60,17 +60,36 @@ class CliController
 
     input = gets.strip
 
-    if input.to_i <= Satellite.all.length
-      modded_input = input.to_i
-      Satellite.all[modded_input - 1].get_sat_info
-    elsif input == "exit"
-      exit
+    if input.to_i > 0
+      int_input = input.to_i
     else
-      puts "**** Please choose a number between 1 and 20. ****"
-      sleep (2)
-      system "clear"
-      list_menu
+      string_input = input
     end
+
+    while input = int_input
+      if int_input <= Satellite.all.length
+        Satellite.all[int_input - 1].get_sat_info
+      elsif int_input >= Satellite.all.length
+        puts "**** Please choose a number between 1 and #{Satellite.all.length}. ****"
+        sleep (2)
+        system "clear"
+        Satellite.clear
+        list_menu
+      end
+    end
+
+    while input = string_input
+      if string_input == "exit"
+        exit
+      elsif string_input == "go to page"
+        self.page_select
+      else
+        puts "**** I'm sorry, I don't understand that command.  Please try again. ****"
+        sleep (2)
+        system "clear"
+        Satellite.clear
+        list_menu
+      end
     end
   end
 
@@ -83,16 +102,16 @@ class CliController
 
     DOC
     input = gets.chomp.to_i
-    @api_test.go_to_page(input)
-    list_menu
 
-    if input != (1..435)
+    if input >= 1 && input <= 435
+      @api_test.go_to_page(input)
+      list_menu
+    elsif input != (1..435)
       puts "**** Please choose a number between 1 and 435. ****"
       sleep (2)
       system "clear"
       page_select
     end
-
   end
 
 end

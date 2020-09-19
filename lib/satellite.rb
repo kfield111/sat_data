@@ -18,6 +18,10 @@ class Satellite
     @@all
   end
 
+  def self.clear
+    @@all.clear
+  end
+
 
   def self.create_from_api (sat)
     sat_name = sat["name"]
