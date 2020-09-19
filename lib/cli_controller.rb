@@ -72,8 +72,7 @@ class CliController
       elsif int_input >= Satellite.all.length
         puts "**** Please choose a number between 1 and #{Satellite.all.length}. ****"
         sleep (2)
-        system "clear"
-        Satellite.clear
+        clear_and_reset
         list_menu
       end
     end
@@ -82,12 +81,12 @@ class CliController
       if string_input == "exit"
         exit
       elsif string_input == "go to page"
-        self.page_select
+        clear_and_reset
+        page_select
       else
         puts "**** I'm sorry, I don't understand that command.  Please try again. ****"
         sleep (2)
-        system "clear"
-        Satellite.clear
+        clear_and_reset
         list_menu
       end
     end
@@ -112,6 +111,11 @@ class CliController
       system "clear"
       page_select
     end
+  end
+
+  def clear_and_reset
+    system "clear"
+    Satellite.clear
   end
 
 end
