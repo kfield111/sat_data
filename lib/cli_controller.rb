@@ -45,14 +45,17 @@ class CliController
               exit
     DOC
 
-  @list_number = @api_test.get_sat_name_and_id
+  @list_number = @api_test.get_sat_names
 
-    input = gets.chomp.to_i
+    input = gets.strip
 
 
-    if input <= @list_number.length
-      test_five = @api_test.response["member"]["satelliteId"]
-      puts test_five
+    if input.to_i <= @list_number.length
+      sat_name = @list_number[input.to_i - 1]
+
+      @api_test.get_sat_data(
+      # test_five = @api_test.response["member"]["satelliteId"]
+      # puts test_five
       elsif input == "next page"
       puts "going to next page"    #Test must replace later
     elsif input == "exit"

@@ -9,16 +9,16 @@ class API_ACCESSOR
   end
 
 
-def response (url = "/api/tle/")
+  def response (url = "/api/tle?search=")
   response = self.class.get(url)    #the initial get query to the api endpoint.
   @list_body = JSON.parse(response.body)      #parses the response and sets it equal to an instance variable.
-end
+  end
 
 
   @@full_list = []      #creates a variable set to an empty array to be populated with satellite names by the while loop below.
 
-  def get_sat_name_and_id (url = 0)    #a method that provides a numbered list of satellites for the user to choose from.
-    current_page = @list_body["view"]["@id"].split("?")[1].tr("=", "")   #creates a variable and assigns it to the value of the current page and formats it to a more pleasing form.
+  def get_sat_names (url = 0)    #a method that provides a numbered list of satellites for the user to choose from.
+    current_page = @list_body["view"]["@id"].split("?")[1].tr("=", "").gsub("search", "").tr("&", "")   #creates a variable and assigns it to the value of the current page and formats it to a more pleasing form.
     @list_body["member"].each do |temp|      #iterates over the 20 (max) satellites in the current page stored in the "member" key.
       @@full_list << temp['name']         #shovels the names of each satellite into the full_list array.
     end
@@ -26,12 +26,12 @@ end
     indexed_satellites = @@full_list.each_with_index do |value, index|  #creates a variable to hold the indexed list of satellite names and iterates through the full_list array.
       puts "#{index+1}. #{value}"           #puts out the satellite names with modified index in list format.
     end
-    indexed_satellites      #returns the final created numbered list.
+    # indexed_satellites      #returns the final created numbered list.
   end
 
   def go_to_next_page     #a method that clears the current list of satellites and then displays the satellites on the next page of the API.
     @@full_list.clear     #clears the current array of satellite names in the array.
-    next_page = @list_body["view"]["next"].split("?")[1]      #creates a variable to store the nested value of "next" within the variable assigned to the query response and formats it.
+    next_page = @list_body["view"]["next"]..split("?")[1].tr("=", "").gsub("search", "").tr("&", "")      #creates a variable to store the nested value of "next" within the variable assigned to the query response and formats it.
 
     while @list_body["view"]["next"] == "https://data.ivanstanojevic.me/api/tle?#{next_page}"   #creating a loop that runs unit the query reaches a specific page number of the API pulled form the variable above.
       next_page_address = @list_body["view"]["next"]  #sets a variable equal to the html address of the next page of the API.
@@ -39,14 +39,14 @@ end
       @list_body = JSON.parse(list.body)    #parses the new response.
       puts "moving to #{next_page}"    #tells the user which page the loop is going to next.
     end
-    get_sat_name_and_id (next_page_address)   #calls the get_sat_name_and_id method and passes in the updated html address in order to show the new group of satellite names.
+    get_sat_names (next_page_address)   #calls the get_sat_name_and_id method and passes in the updated html address in order to show the new group of satellite names.
   end
 
   def go_to_page (input)  #a method that allows a user to go to a specific page within the API.
     @@full_list.clear     #clears the current array of satellite names in the array.
     user_page_input = "https://data.ivanstanojevic.me/api/tle?page=#{input}"  #sets a variable to an html address with the page number set by user.
     response (user_page_input)    #updates the json parse query.
-    get_sat_name_and_id       #populates the new list from the users entered page.
+    get_sat_names      #populates the new list from the users entered page.
   end
 
 
@@ -91,5 +91,5 @@ end
 
 #development/test code below this line ----------------------
 #
-# first_test = API_ACCESSOR.new
-# puts first_test.get_sat_name_and_id
+first_test = API_ACCESSOR.new
+first_test.get_sat_names
