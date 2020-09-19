@@ -16,22 +16,17 @@ class API_ACCESSOR
 
 
   def get_sats (url = 0)    #a method that provides a numbered list of satellites for the user to choose from.
-    @current_page = @list_body["view"]["@id"].split("?")[1].tr("=", "").gsub("search", "").tr("&", "")   #creates a variable and assigns it to the value of the current page and formats it to a more pleasing form.
+    current_page = @list_body["view"]["@id"]         #["view"]["@id"].split("?")[1].tr("=", "").gsub("search", "").tr("&", "")
     @list_body["member"].each do |temp|
       Satellite.create_from_api(temp)
     end
-
+    response (current_page)
   end
 
 
   def go_to_next_page     #a method that calls and loads the next page of the API.
-    next_page = @list_body["view"]["next"].split("?")[1].tr("=", "").gsub("search", "").tr("&", "").tr("page", "")     #creates a variable to store the nested value of "next" within the variable assigned to the query response and formats it.
-    next_page_address = @list_body["view"]["next"]  #sets a variable equal to the html address of the next page of the API.
-    puts next_page_address
-    puts "moving to #{next_page}"    #tells the user which page the loop is going to next.
-    list = self.class.get(next_page_address)     #increments the url by resetting it to the "next" value we stored above.
-    @list_body = JSON.parse(list.body)
-    CliController.list_menu
+    next_page = @list_body["view"]["next"]
+    response (next_page)
   end
 
 

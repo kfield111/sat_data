@@ -14,7 +14,7 @@ class CliController
 
   def greeting
     puts "Hello! Welcome to the Satellite Data Retrieval Program!"
-    sleep (3)
+    sleep (2)
   end
 
   def command_promt
@@ -58,8 +58,8 @@ class CliController
     DOC
 
     @api_test.get_sats
-    current_page = @api_test.response["view"]["@id"].split("?")[1].tr("=", "").gsub("search", "").tr("&", "")
-    puts "You are viewing 20 satellies on #{current_page} of the TLE API ."
+    # current_page = @api_test.response["view"]["@id"].split("?")[1].tr("=", "").gsub("search", "").tr("&", "")
+    puts "You are viewing 20 satellies on x page of the TLE API ."
     Satellite.all.each_with_index {|sat, index| puts "#{index + 1}. #{sat.name}"}
 
     input = gets.strip
@@ -89,8 +89,8 @@ class CliController
         page_select
       elsif string_input == "next page"
         clear_and_reset
-        @api_test.go_to_next_page
-
+        1.times {@api_test.go_to_next_page}
+        list_menu
       else
         puts "**** I'm sorry, I don't understand that command.  Please try again. ****"
         sleep (2)
@@ -120,6 +120,7 @@ class CliController
       page_select
     end
   end
+
 
   def clear_and_reset
     system "clear"
