@@ -1,4 +1,4 @@
-require '../config/environment'
+require_relative '../config/environment.rb'
 
 class API_ACCESSOR
   include HTTParty      #necessary to allow HTTParty to operate correctly in this class

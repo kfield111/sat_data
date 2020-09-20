@@ -1,4 +1,4 @@
-require '../config/environment'
+require_relative '../config/environment.rb'
 
 class Satellite
   attr_accessor :name, :id, :launch_year, :ballistic_coef, :inclination

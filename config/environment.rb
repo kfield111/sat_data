@@ -1,8 +1,7 @@
 require 'bundler'
-
-Bundler.require
-
-require 'rubygems'
 require 'httparty'
 require 'json'
-require_relative 'lib'
+require 'rubygems'
+Bundler.require
+require_relative '../lib/api_accessor'
+require_relative '../lib/satellite'

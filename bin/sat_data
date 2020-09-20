@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
 
-require './lib/environment'
+require '../config/environment'
 
 Cli_Controller.new.call
