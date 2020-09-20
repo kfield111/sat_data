@@ -1,15 +1,16 @@
-# Test
+# sat_data
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/test`. To experiment with that code, run `bin/console` for an interactive prompt.
+Created as a final portfolio project for the Flatiron Online Software Engineering Program.
 
-TODO: Delete this and the text above, and describe your gem
+This Ruby Gem is designed to allow the user to access the TLE API on the NASA API Portal.
+A user may search lists of satellite names and return data such as the satellite ID, ballistic coefficient, launch year and other data.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'test'
+gem 'sat_data'
 ```
 
 And then execute:
@@ -18,21 +19,18 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install test
+    $ gem install sat_data
 
 ## Usage
 
-TODO: Write usage instructions here
+To use this application simply follow the onscreen instructions provided.
+Please enter all commands without quotes or other symbols.
+The program is currently case sensitive so please enter all commands verbatim.
 
-## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/'jovial-variable-0357'/test. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/'jovial-variable-0357'/sat_data. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
@@ -41,3 +39,7 @@ The gem is available as open source under the terms of the [MIT License](https:/
 ## Code of Conduct
 
 Everyone interacting in the Test project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/'jovial-variable-0357'/test/blob/master/CODE_OF_CONDUCT.md).
+
+## Project Status
+
+This project is considered to be completed and in inactive maintenance.
