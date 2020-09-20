@@ -23,6 +23,8 @@ Or install it yourself as:
 
 ## Usage
 
+To run the program type:  ./bin/sat_data
+
 To use this application simply follow the onscreen instructions provided.
 Please enter all commands without quotes or other symbols.
 The program is currently case sensitive so please enter all commands verbatim.
