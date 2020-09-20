@@ -1,4 +1,4 @@
-require './lib/environment'
+require_relative '../config/environment'
 
 class CliController
 

@@ -1,4 +1,4 @@
-require './lib/environment'
+require '../config/environment'
 
 class API_ACCESSOR
   include HTTParty      #necessary to allow HTTParty to operate correctly in this class

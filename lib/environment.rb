@@ -1,6 +1,0 @@
-require 'rubygems'
-require 'httparty'
-require 'json'
-require './lib/api_accessor'
-require './lib/satellite'
-# require '/lib/cli_controller'
